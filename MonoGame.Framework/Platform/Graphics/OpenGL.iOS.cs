@@ -7,7 +7,7 @@ using System.Runtime.InteropServices;
 using ObjCRuntime;
 using System.Security;
 using OpenGLES;
-using MonoGame.Utilities;
+using MonoGame.Framework.Utilities;
 
 namespace MonoGame.OpenGL
 {
@@ -35,7 +35,15 @@ namespace MonoGame.OpenGL
     {
         public GraphicsContext ()
         {
-            Context = new EAGLContext (EAGLRenderingAPI.OpenGLES2);
+            try
+            {
+                Context = new EAGLContext(EAGLRenderingAPI.OpenGLES3);
+            }
+            catch
+            {
+                // Fall back to GLES 2.0
+                Context = new EAGLContext(EAGLRenderingAPI.OpenGLES2);
+            }
         }
 
         public bool IsCurrent {

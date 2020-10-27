@@ -1,12 +1,11 @@
 <Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
 
   <PropertyGroup>
-    <TargetFrameworks>net452;netcoreapp3.0</TargetFrameworks>
+    <TargetFrameworks>net452;netcoreapp3.1</TargetFrameworks>
     <DefineConstants>WINDOWS;XNADESIGNPROVIDED;STBSHARP_INTERNAL</DefineConstants>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    <Description>MonoGame is an open source implementation of the Microsoft XNA 4.x Framework. The goal is to make it easy for XNA developers to create cross-platform games with extremely high code reuse.
-
-This package provides you with MonoGame Framework that uses DirectX for rendering and works on Windows.</Description>
+    <UseWindowsForms>true</UseWindowsForms>
+    <Description>The MonoGame runtime for Windows using DirectX API's.</Description>
     <PackageTags>monogame;.net core;core;.net standard;standard;windowsdx</PackageTags>
     <PackageId>MonoGame.Framework.WindowsDX</PackageId>
   </PropertyGroup>
@@ -55,29 +54,30 @@ This package provides you with MonoGame Framework that uses DirectX for renderin
   </ItemGroup> 
 
   <ItemGroup>
-    <Compile Include="..\ThirdParty\StbImageSharp\src\StbImageSharp\**\*.cs" LinkBase="Utilities\StbImageSharp" />
-    <Compile Include="..\ThirdParty\StbImageWriteSharp\src\StbImageWriteSharp\**\*.cs" LinkBase="Utilities\StbImageWriteSharp"/>
+    <Compile Include="..\ThirdParty\StbImageSharp\src\**\*.cs" LinkBase="Utilities\StbImageSharp" />
+    <Compile Include="..\ThirdParty\StbImageWriteSharp\src\**\*.cs" LinkBase="Utilities\StbImageWriteSharp" />
   </ItemGroup>
 
   <ItemGroup>
     <Content Include="MonoGame.Framework.WindowsDX.targets" PackagePath="build" />
   </ItemGroup>
 
-  <ItemGroup Condition="'$(TargetFrameworkIdentifier)' == '.NETFramework'" >
-    <Reference Include="System.Windows.Forms" />
-  </ItemGroup>
-  <PropertyGroup Condition="'$(TargetFrameworkIdentifier)' != '.NETFramework'" >
+  <PropertyGroup>
     <UseWindowsForms>true</UseWindowsForms>
   </PropertyGroup>
 
   <ItemGroup>
-    <Reference Include="..\ThirdParty\Dependencies\SharpDX\net40\SharpDX.dll" />
-    <Reference Include="..\ThirdParty\Dependencies\SharpDX\SharpDX.Direct2D1.dll" />
-    <Reference Include="..\ThirdParty\Dependencies\SharpDX\SharpDX.Direct3D11.dll" />
-    <Reference Include="..\ThirdParty\Dependencies\SharpDX\SharpDX.DXGI.dll" />
-    <Reference Include="..\ThirdParty\Dependencies\SharpDX\net40\SharpDX.MediaFoundation.dll" />
-    <Reference Include="..\ThirdParty\Dependencies\SharpDX\net40\SharpDX.XAudio2.dll" />
-    <Reference Include="..\ThirdParty\Dependencies\SharpDX\net40\SharpDX.XInput.dll" />
+    <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" Version="1.0.0">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+    <PackageReference Version="4.0.1" Include="SharpDX" />
+    <PackageReference Version="4.0.1" Include="SharpDX.Direct2D1" />
+    <PackageReference Version="4.0.1" Include="SharpDX.Direct3D11" />
+    <PackageReference Version="4.0.1" Include="SharpDX.DXGI" />
+    <PackageReference Version="4.0.1" Include="SharpDX.MediaFoundation" />
+    <PackageReference Version="4.0.1" Include="SharpDX.XAudio2" />
+    <PackageReference Version="4.0.1" Include="SharpDX.XInput" />
   </ItemGroup>
 
   <Import Project="Platform\DirectX.targets" />

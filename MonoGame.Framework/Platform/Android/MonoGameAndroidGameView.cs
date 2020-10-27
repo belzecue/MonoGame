@@ -52,6 +52,7 @@ namespace Microsoft.Xna.Framework
         volatile InternalState _internalState = InternalState.Exited_GameThread;
 
         bool androidSurfaceAvailable = false;
+        bool needToForceRecreateSurface = false;
 
         bool glSurfaceAvailable;
         bool glContextAvailable;
@@ -111,6 +112,10 @@ namespace Microsoft.Xna.Framework
                 if (_internalState == InternalState.Running_GameThread)
                 {
                     _internalState = InternalState.ForceRecreateSurface;
+                }
+                else
+                {
+                    needToForceRecreateSurface = true;
                 }
 
             }
@@ -574,6 +579,11 @@ namespace Microsoft.Xna.Framework
 
             lock (_lockObject)
             {
+                if (needToForceRecreateSurface && _internalState == InternalState.Running_GameThread)
+                {
+                    _internalState = InternalState.ForceRecreateSurface;
+                    needToForceRecreateSurface = false;
+                }
                 currentState = _internalState;
             }
 
@@ -1149,6 +1159,8 @@ namespace Microsoft.Xna.Framework
 
         public override bool OnKeyUp(Keycode keyCode, KeyEvent e)
         {
+            if (keyCode == Keycode.Back)
+                GamePad.Back = false;
             if (GamePad.OnKeyUp(keyCode, e))
                 return true;
             return Keyboard.KeyUp(keyCode);
